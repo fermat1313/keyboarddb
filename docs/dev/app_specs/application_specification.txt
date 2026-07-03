@@ -1,0 +1,68 @@
+/*
+****************************************************
+*               KeyboardDB Application             *
+*                                                  *
+*         Application Specification Document       *
+*                                                  *
+*                    Version: 0.1                  *
+*                                                  *
+*            Created by: Steve Peterson            *
+*                  Copyright (2026)                *
+*                    MIT License                   *
+****************************************************
+*/
+
+Contents
+    1. Vision Statement
+    2. Goals
+    3. Target Users
+    4. Major Features
+    5. Goals
+
+
+1. Vision Statement
+
+The vision of this application is to build a cross-platform, extensible 
+database-driven application for the user to track their keyboard equipment.
+
+2. Goals
+
+1.  Build an application to track keyboard items
+2.  The application will be extensible, allowing user-defined tags to be
+    applied to items
+3.  The application will be reasonably lightweight and will be built with the 
+    Wails framework using VS Code.
+4.  The application will use SQLLite as its database technology
+5.  The application will be easy-to-use for non-technical users.
+
+2. Target Users
+
+Target users are keyboard enthusiasts who want to keep track of their
+collections. Users do not need any technical ability or knowledge to use
+the app.
+
+3. Major Features.
+
+The Application will:
+1.  Allow users to create, edit, and delete records for keyboards, switches,
+    and keycaps.
+2.  Allow users to assign descriptive tags (with type boolean, int, text,
+    float, or blob) to items, as well as create new tags and delete existing
+    tags. Deleted objects in the application are marked as deleted, not deleted
+    from the database.
+3.  Allow users to upload photos and tag them to any item.
+4.  The application will have tabs for "Collection" and "Settings"
+5.  The collection tab provides a list view of all items in the collection.
+    users can filter by item type (Keyboard, Keycaps, or Switch) and by other
+    features such as color, construction, etc.  Clicking an item shows a pane
+    under the list with all details and tags with their values, as well as any
+    photos tagged to it. Double-clicking an item brings up the same panel in
+    edit mode, so users can add edit the basic data, add and delete photo and 
+    tag links. The user can click a save button to commit this information and links. 
+
+Non-Goals
+
+1. Image downlod from internet
+2. Reporting and exporting
+3. Data importing
+
