@@ -14,7 +14,7 @@
 
 
 
-/*          Create Database and set up schema for keyboardDB          */
+/*      Create Database and set up schema for keyboardDB      */
 CREATE TABLE item_master (
     item_uid BLOB PRIMARY KEY,
     item_type_uid BLOB NOT NULL,
@@ -94,20 +94,21 @@ create table keyboard_materials (
     deleted_at TIMESTAMP DEFAULT NULL
 );
 
-create table keycap_materials (
-    keycap_material_uid BLOB PRIMARY KEY,
-    keycap_material_desc TEXT NOT NULL,
+create table keyboard_layouts (
+    keyboard_layout_uid BLOB PRIMARY KEY,
+    keyboard_layout_windows_key TEXT NOT NULL,
+    keyboard_layout_size INT NOT NULL,     -- Check on this...
+    keyboard_layout_macro_columns INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL
 );
 
-create table keyboard_layouts (
-    keyboard_layout_uid BLOB PRIMARY KEY,
-    keyboard_layout_windows_key TEXT NOT NULL,
-    keyboard_layout_size INT NOT NULL,     -- Check on this...
-    keyboard_layout_macro_columns INT NOT NULL,
+
+create table keycap_materials (
+    keycap_material_uid BLOB PRIMARY KEY,
+    keycap_material_desc TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
@@ -151,11 +152,7 @@ create table item_tags (
     item_tag_desc TEXT NOT NULL,
     item_tag_availability INT DEFAULT 0 NOT NULL,
     item_tag_type text,
-    item_tag_boolean BOOLEAN DEFAULT FALSE,
-    item_tag_int INT,
-    item_tag_text TEXT,
-    item_tag_float Decimal(10,2),
-    item_tag_blob BLOB,
+    item_tag_data text,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
@@ -175,7 +172,6 @@ create table item_tag_links (
 
 create table color_tag_links (
     item_color_tag_link_uid BLOB PRIMARY KEY,
-    item_color_link_uid BLOB NOT NULL,
     item_uid BLOB NOT NULL,
     color_uid BLOB NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -230,8 +226,6 @@ create table photo_extentions (
 create table keyboard_layouts (
     keyboard_layout_uid BLOB PRIMARY KEY,
     keyboard_layout_desc TEXT NOT NULL,
-    keyboard_macro_columns INT NOT NULL,
-    keyboard_has_f13 BOOLEAN DEFAULT FALSE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
@@ -263,7 +257,44 @@ create table build_photo_links (
 
 
 
-/**             Create Default Records                **/
+/*          Create Indexes          */
+
+-- item_master: primary search/filter target (search box + multi-field filters)
+CREATE INDEX idx_item_master_type ON item_master(item_type_uid) WHERE deleted = FALSE;
+CREATE INDEX idx_item_master_manufacturer ON item_master(manufacturer_uid) WHERE deleted = FALSE;
+CREATE INDEX idx_item_master_vendor ON item_master(item_vendor_uid) WHERE deleted = FALSE;
+CREATE INDEX idx_item_master_status ON item_master(item_status_uid) WHERE deleted = FALSE;
+CREATE INDEX idx_item_master_purchase_date ON item_master(item_purchase_date) WHERE deleted = FALSE;
+CREATE INDEX idx_item_master_price ON item_master(item_price) WHERE deleted = FALSE;
+CREATE INDEX idx_item_master_name ON item_master(item_name COLLATE NOCASE) WHERE deleted = FALSE;
+
+-- tag filtering and Tag Manager (item <-> tag lookups both directions)
+CREATE INDEX idx_item_tag_links_item ON item_tag_links(item_uid) WHERE deleted = FALSE;
+CREATE INDEX idx_item_tag_links_tag ON item_tag_links(item_tag_uid) WHERE deleted = FALSE;
+
+-- color links
+CREATE INDEX idx_color_tag_links_item ON color_tag_links(item_uid) WHERE deleted = FALSE;
+CREATE INDEX idx_color_tag_links_color ON color_tag_links(color_uid) WHERE deleted = FALSE;
+
+-- material links
+CREATE INDEX idx_material_tag_links_item ON material_tag_links(item_uid) WHERE deleted = FALSE;
+
+-- photos: item detail thumbnails, Photo Manager filters/sort
+CREATE INDEX idx_photos_item ON photos(item_uid) WHERE deleted = FALSE;
+CREATE INDEX idx_photos_created_at ON photos(created_at) WHERE deleted = FALSE;
+CREATE INDEX idx_photo_item_links_item ON photo_item_links(item_uid) WHERE deleted = FALSE;
+CREATE INDEX idx_photo_item_links_photo ON photo_item_links(photo_uid) WHERE deleted = FALSE;
+
+-- builds
+CREATE INDEX idx_builds_keyboard ON builds(build_keyboard_uid) WHERE deleted = FALSE;
+CREATE INDEX idx_builds_keycap ON builds(build_keycap_uid) WHERE deleted = FALSE;
+CREATE INDEX idx_builds_switch ON builds(build_switch_uid) WHERE deleted = FALSE;
+CREATE INDEX idx_build_photo_links_build ON build_photo_links(build_uid) WHERE deleted = FALSE;
+CREATE INDEX idx_build_photo_links_photo ON build_photo_links(photo_uid) WHERE deleted = FALSE;
+
+
+
+/**     Create Default Records       **/
 insert into item_status (
     item_status_description,
     deleted
@@ -394,7 +425,8 @@ insert into keyboard_layouts (
     ('65%', false),
     ('70%', false),
     ('75%', false),
-    ('96%', false),
+    ('TKL', false),
+    ('98%', false),
     ('100%', false),
     ('1800', false);
 
@@ -403,36 +435,44 @@ insert into keyboard_layouts (
 insert into item_tags (
     item_tag_desc,
     item_tag_availability,
-    item_tag_type,
-    item_tag_boolean,
-    item_tag_int,
-    item_tag_text,
-    item_tag_float,
-    item_tag_blob,
-    deleted
+    item_tag_deleted, 
 ) values
-    ('Premium Manufacturer', 7, 'boolean', true, null, null, null, null, false),
-    ('Designer', 7, 'text', null, null, 'Designer Name', null, null, false),
-    ('Has Novelties', 2, 'boolean', false, null, null, null, null, false),
-    ('Has Split Spacebars', 2, 'boolean', false, null, null, null, null, false),
-    ('Has 10-Key Set', 2, 'boolean', false, null, null, null, null, false),
-    ('Is Clone', 2, 'boolean', false, null, null, null, null, false),
-    ('Has Icon Mods', 2, 'boolean', false, null, null, null, null, false);
-    ('Has Relegendable Keys', 2, 'boolean', false, null, null, null, null, false);
-    ('Has RGB Lighting', 1, 'boolean', false, null, null, null, null, false);
-    ('Has Backlighting', 1, 'boolean', false, null, null, null, null, false);
-    ('Extra Sets - Novelties', 2, 'int', null, 0, null, null, null, false);
-    ('Extra Sets - Spacebars', 2, 'int', null, 0, null, null, null, false);
-    ('Extra Sets - Alphas', 2, 'int', null, 0, null, null, null, false);
-    ('Extra Sets - Number Set', 2, 'int', null, 0, null, null, null, false);
-    ('Extra Sets - Macro Keys', 2, 'int', null, 0, null, null, null, false);
-    ('Extra Sets - Relegendable Keys', 2, 'int', null, 0, null, null, null, false);
-    ('Extra Sets - Alert/Highlight/Accent', 2, 'int', null, 0, null, null, null, false);
-    ('Extras - Artisans', 2, 'int', null, 0, null, null, null, false);
-    ('Keycap_material', 2, 'text', null, null, 'ABS', null, null, false);
-    ('Keyboard_material', 2, 'text', null, null, 'Aluminum', null, null, false);
-    ('Keycap_method', 2, 'text', null, null, 'Dye Sublimation', null, null, false);
-    ('Keycap_profile', 2, 'text', null, null, 'OEM', null, null, false);
-    ('Keycap_thickness', 2, 'float', null, null, null, 1.5, null, false);
-    ('Condition', 2, 'text', null, null, 'New', null, null, false);
-    ('Condition Notes', 2, 'text', null, null, '', null, null, false);
+    ('Premium Manufacturer', 7, true, false),
+    ('Designer', 7, '', false),
+    ('Has Artisans', 2, false, false),
+    ('Has Macro Keys', 2, false, false),
+    ('Has Alert/Highlight/Accent', 2, false, false),
+    ('Has Novelties', 2, false, false),
+    ('Has Relegendable Keys', 2, false, false),
+    ('Has Split Spacebars', 2, false, false),
+    ('Has 10-Key Set', 2, true, false),
+    ('Has RGB Lighting', 1, true, false),
+    ('Has RGB Backlighting', 1, true, false);
+    ('Has Split Spacebars', 2, false, false);
+    ('Has 10-Keys', 2, true, false);
+    ('Is Clone', 2, false, false),
+    ('Has Icon Mods', 2, true, false),
+    ('Has Relegendable Keys', 2, false, false);
+    ('Has RGB Lighting', 1, false, false);
+    ('Has RGB Backlighting', 1, false, false)
+    ('Extra Sets - Novelties', 2, 0, false),
+    ('Extra Sets - Spacebars', 2, 0, false);
+    ('Extra Sets - Alphas', 2, 0, false);
+    ('Extra Sets - Mods', 2, 0, false);
+    ('Extra Sets - Macro Keys', 2, 0, false);
+    ('Extra Sets - Relegendables', 2, 0, false);
+    ('Extra Sets - Alert/Highlight/Accent', 2, 0, false);
+    ('Extras - Artisans', 2, 0, false);
+    ('Keycap Material', 2, 'ABS', false);
+    ('Keyboard Material', 2, '', false);
+    ('Keycap Production Method', 2, 'Doubleshot', false);
+    ('Keycap Profile', 2, '', false) ;
+    ('Keycap Thickness', 2, 0, false);
+    ('Condition', 2, 'New', false)
+    ('Condition Notes', 7, '', false);
+    ('Keyboard Finish Type', 7, 'Anodized', false);
+    ('Purchased New', 2, true, false);
+    ('Macro Columns', 2, 0, false);
+    ('Has F13 Key', 2, , 0, false);
+
+    
