@@ -121,7 +121,7 @@ Non-Fuunctional Requirements
 1.  Cold Launch in under 5 seconds, hot launch in under 2 seconds.
 2.  Consume less than 100MB RAM
 3.  Release under 150MB
-4.  Store all data in a SQLLite database located in a user-definable location.
+4.  Store all data in a database file located in a user-definable location.
     Easily locate and move database
 5.  Work without internet access
 6.  Run on Windows, MacOS, and Linux
