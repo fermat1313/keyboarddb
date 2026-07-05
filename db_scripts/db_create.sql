@@ -256,6 +256,15 @@ create table build_photo_links (
     deleted_at TIMESTAMP DEFAULT NULL
 );
 
+create table db_version (
+    db_version_uid BLOB PRIMARY KEY,
+    db_version_number TEXT NOT NULL,
+    db_version_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
+);
 
 
 /*          Create Indexes          */

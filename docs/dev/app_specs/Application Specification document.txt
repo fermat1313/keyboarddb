@@ -15,7 +15,8 @@
 Functional Requirements
 1.  Store item records for item types Keyboard, Keycaps, and switches
 2.  Present a search box showing items and their basic details
-3.  Allow user to search records or filter by multiple fields
+3.  Allow user to search records or filter by multiple fields. Users can sort
+    by the same fields.
     a.  Item type
     b.  Item Materials
     c.  tags
@@ -25,15 +26,14 @@ Functional Requirements
     g.  Status
     h.  Price
 4.  Double-click on a link to display full details in a frame under the list
-    as well as thumbnails for the attached photos. Clicking on a thumbnail brings up the Image Viewing Screen.
-5.  Click "Edit" to edit the current item.
+    as well as thumbnails for the attached photos. Clicking on a thumbnail brings up the image viewer Screen.
+5.  Click button to edit the current item.
     1.  User can edit basic details
-    2.  User can add exiting tags and edit them
+    2.  User can add exiting tags and set values, or edit the values of tags
+        already linked
     3.  Users can create new tag types on the fly
         a. Tags types store:
-            1.  A data type (Boolean, Int, Text, Float, Blob)
-            2.  A field for each data type. All unused data fields in a tag
-                are set NULL
+            2.  A data field which holds the data type of the value
             3.  A value indicating what item types this tag can be attached to
                 a.  The value is a bitmap where: 1 = Keyboard, 2 = Keycaps,
                     3 = switches.
@@ -41,7 +41,7 @@ Functional Requirements
             item and the user enters the tag data
     4.  Users can tag existing photos to the current item, and can upload
         images to be tagged.
-6.  Near the list box, a user can click an Add Arrow, and choose from a
+6.  Near the list box, a user can click a button, and choose from a
     dropdown of Keyboard, Keycaps or Switches
 7.  User can click a button to enter the photo Manager
     a.  The photo manager opens in a separate window. Along the left side are
@@ -50,12 +50,14 @@ Functional Requirements
         options. If a user clicks on a thumbnail it will open up on the right
         side of the window. The view window will have left/right arrows cycling
         between the images shown in the list. Arrow keys will move to the
-        previous or next photos. Photos can be deleted.
-8.  The above-mentioned photo viewer opens in a new window similar to the Photo
+        previous or next photos. Images can be zoomed in and out. Photos can be 
+        deleted.
+8.  The above-mentioned photo manater opens in a new window similar to the Photo
     Manager. There will be thumbnails of the pictures tagged to the current
     Item. Click on a photo and it will show in the view pane on the right.
     Double-click on a photo in the view pane opens a full screen viewer, arrow
-    keys or mouse clicks are used to cycle between pictures
+    keys or mouse clicks are used to cycle between pictures. Users can delete
+    images and tag them to items as well as delete tags.
 9.  Tag Manager
     a.  The user can click on a "Tag Manager" button to open a window.
     b.  A list of all tag types is displayed in the left.
@@ -68,7 +70,7 @@ Functional Requirements
         change the tag name, and which item types the tag can link to, 
         but can only change the data type of an existing tag if it is not
         linked to any existing items. Item links can be deleted from the list
-        of links
+        of links for a given tag.
     f.  The user can click on a New Tag to create a new tag type. They enter
         the Tag Name, data type and which item types the tag can use. 
 10. Settings
@@ -81,9 +83,7 @@ Functional Requirements
         5.  Backup settings: Log into google account, frequency and dureation
             of automated backups, backup now, Missed Backups: Run Immediately
             or skip
-        6.  All settings will be stored in the database, except database 
-            location which will be stored in the db_locate file in the app
-            settings location for the host OS.
+        6.  Settings will be stored in a folder appropriate for the host OS.
 
 11. Backup
     a.  The application will have the optional ability to backup the database
@@ -91,17 +91,20 @@ Functional Requirements
     b.  The user can set up regular automated backups.
         1.  If the application was closed during a scheduled backup time, the
             backup will run automatically when the app opens, if configured to 
-            run missed backups immediately or skip them
+            run missed backups immediately or skip them. Users can configure
+            how long backups are retained.
         2. Scheduled backups will have a standard naming sceme:   
             keyboard_db_backup_[date year first]_[time with seconds]
+        3.  The user will be able to log into google to manage and restore
+            backups
     c.  The main interface will have a "Backup" option. The user may optionally
         provide a name for the backup. The on-demand backups will use the naming
         scheme:
             keyboard_db_backup_[backup name]_[date year first]_[time with seconds]
-12. Application data directory
-    The application data directory will be located in the standard location for
-    the host OS. The data directory will store the database file (by default, 
-    unless moved), and an db_locate file to point to the database file location
+12 Builds
+    a.  The user may create a "build" object, which can contain a keyboard, 
+        keycaps set, and switch type. Photos can be attacked to a build. Tags
+        can be attached to builds.
 
 
 
@@ -115,18 +118,20 @@ Functional Requirements
 
 
 Non-Fuunctional Requirements
-1.  Launch in under 5 seconds
+1.  Cold Launch in under 5 seconds, hot launch in under 2 seconds.
 2.  Consume less than 100MB RAM
 3.  Release under 150MB
-4.  Store all data locally in a SQLLite database
+4.  Store all data in a SQLLite database located in a user-definable location.
+    Easily locate and move database
 5.  Work without internet access
 6.  Run on Windows, MacOS, and Linux
-7.  Easily locate and move database
-8.  All object deletes will remove sub-records.
+8.  All object deletes will remove subrecords, such as tags, vendors, and all
+    other subrecords.
 9.  The application will support running on multiple computers with the
     application on each having a db_locate file pointing to the database
     file
-10. Research: Are concurrent users possible? If not, when a second user
-    connects, can they use in read-only mode.
+10. ***** - Research - *****: Are concurrent users possible? If not, when a second user
+    connects, can they use in read-only mode?
 11. The database file can be stored in any location accessable to the
     User
+12
