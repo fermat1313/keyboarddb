@@ -12,7 +12,9 @@
 ****************************************************
 */
 
+-- Set database version number
 
+DECLARE { @LOCAL_VARIABLE text = 0.1 };DECLARE { @LOCAL_VARIABLE data_type [ = value ] }
 
 /*      Create Database and set up schema for keyboardDB      */
 CREATE TABLE item_master (
@@ -485,4 +487,9 @@ insert into item_tags (
     ('Macro Columns', 2, 0, false);
     ('Has F13 Key', 2, , 0, false);
 
-    
+insert innto db_version (
+    db_version_number,
+    deleted
+) values
+    (VERSION_NUMBER, false);
+
