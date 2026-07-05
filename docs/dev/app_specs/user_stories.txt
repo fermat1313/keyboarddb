@@ -1,0 +1,39 @@
+/*
+****************************************************
+*               KeyboardDB Application             *
+*                                                  *
+*                 Project Definition               *
+*                                                  *
+*                    Version: 0.1                  *
+*                                                  *
+*            Created by: Steve Peterson            *
+*                  Copyright (2026)                *
+*                    MIT License                   *
+****************************************************
+*/
+
+User Story #1
+
+The target user is a keyboard enthusiast with a medium to large collection
+of keyboards, keycaps, and switches, and wants a system to manage the 
+collection and capture data about it.
+
+1.  The user can add records for keyboards, keycaps, and switches (items).
+2.  The user can link existing tags to the items, as well as create new tags
+    to link to items. 
+3.  The user can upload photos and tag them to one or more items.
+4.  The user can use an interface to look up items in the database. They can
+    filter the list or perform searches. Tag values may be used for filtering
+    and searching. 
+5.  The user can select an item to see all of data associated with it,
+    including linked photo thumbnails. The user can edit all data. Clicking 
+    on a thumbnail bring up a photo viewer, which can be made full screen with arrows to move between photos and controls for zooming in and out.
+6.  The user can upload photos and link them to objects.
+7.  The application is portable, with a mechnism to move the database to any
+    desired location, including network and cloud locations.
+8.  The application is designed to be single-user.
+9.  The user does not need to click "save" to apply a new setting.
+10. The user can export all data as a json
+11. 
+
+
