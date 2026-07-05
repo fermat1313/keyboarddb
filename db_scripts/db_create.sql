@@ -238,6 +238,7 @@ create table builds (
     build_keyboard_uid BLOB NOT NULL,
     build_keycap_uid BLOB NOT NULL,
     build_switch_uid BLOB NOT NULL,
+    build_is_retired BOOLEAN DEFAULT FALSE NOT NULL,
     build_notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

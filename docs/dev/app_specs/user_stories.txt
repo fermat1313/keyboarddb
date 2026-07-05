@@ -28,12 +28,15 @@ collection and capture data about it.
 5.  The user can select an item to see all of data associated with it,
     including linked photo thumbnails. The user can edit all data. Clicking 
     on a thumbnail bring up a photo viewer, which can be made full screen with arrows to move between photos and controls for zooming in and out.
-6.  The user can upload photos and link them to objects.
+6.  The user can upload photos and link them to objects. Popular image formats
+    are supported
 7.  The application is portable, with a mechnism to move the database to any
-    desired location, including network and cloud locations.
+    desired location, including network and cloud locations. The user can save a new database anywhere they have read/write access to.
 8.  The application is designed to be single-user.
 9.  The user does not need to click "save" to apply a new setting.
 10. The user can export all data as a json
-11. 
+11. The user can create a "build" which can include a keyboard, keycaps, and
+    switches. Photos can be linked to a build. A build can be set as "current"
+    or "Retired".
 
 
