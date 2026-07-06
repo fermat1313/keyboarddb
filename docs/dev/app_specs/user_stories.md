@@ -1,14 +1,30 @@
-`****************************************************
-`*               KeyboardDB Application             *
-`*                                                  *
-`*                    User Stories                  *
-`*                                                  *
-`*                    Version: 0.1                  *
-`*                                                  *
-`*            Created by: Steve Peterson            *
-`*                  Copyright (2026)                *
-`*                    MIT License                   *
-v****************************************************
+```
+****************************************************
+
+*               KeyboardDB Application             *
+
+*                                                  *
+
+*              Database creation scrip             *
+
+*                                                  *
+
+*                    Version: 0.1                  *
+
+*                                                  *
+
+*            Created by: Steve Peterson            *
+
+*                  Copyright (2026)                *
+
+*                    MIT License                   *
+
+****************************************************
+
+```
+##  User Stories
+
+
 
 ### Target user
 
