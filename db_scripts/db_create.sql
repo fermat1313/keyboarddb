@@ -2,7 +2,7 @@
 ****************************************************
 *               KeyboardDB Application             *
 *                                                  *
-*              Database creation scrip             *
+*              Database creation script            *
 *                                                  *
 *                    Version: 0.1                  *
 *                                                  *
