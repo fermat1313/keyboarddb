@@ -2,7 +2,7 @@
 ****************************************************
 *               KeyboardDB Application             *
 *                                                  *
-*              Database creation scrip             *
+*                    User Stories                  *
 *                                                  *
 *                    Version: 0.1                  *
 *                                                  *
