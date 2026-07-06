@@ -22,14 +22,156 @@ CREATE TABLE item_master (
     item_type_uid BLOB NOT NULL,
     item_name TEXT NOT NULL,
     manufacturer_uid BLOB NOT NULL,
+    vendor_uid BLOB NOT NULL,
     item_purchase_date DATE DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    item_vendor_uid BLOB,
     item_seller_name TEXT,
     item_price DECIMAL(10,2) NOT NULL,
     item_status_uid BLOB NOT NULL,
-    item_version TEXT,
-    item_notes TEXT,
-    item_deleted BOOLEAN DEFAULT FALSE NOT NULL,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    item_version TEXT NOT NULL,
+    item_notes TEXT NOT NULL
+    item_deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
+    FOREIGN KEY (item_type_uid) REFERENCES item_types(item_type_uid),
+    FOREIGN KEY (manufacturer_uid) REFERENCES manufacturer(manufacturer_uid),
+    FOREIGN KEY (vendor_uid) REFERENCES vendors(vendor_uid),
+    FOREIGN KEY (item_status_uid) REFERENCES item_status(item_status_uid)
+);
+
+create table keyboard_master (
+    keyboard_master_uid BLOB PRIMARY KEY,
+    item_uid BLOB NOT NULL,
+    keyboard_material_uid BLOB NOT NULL,
+    keyboard_layout_uid BLOB NOT NULL,
+    keyboard_layouts_wk_uid BLOB NOT NULL,
+    keyboard_macro_columns INTEGER NOT NULL,
+    item_deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL,
+    FOREIGN KEY (item_uid) REFERENCES item_master(item_uid),
+    FOREIGN KEY (keyboard_material_uid) REFERENCES materials(material_uid),
+    FOREIGN KEY (keyboard_layout_uid) REFERENCES keyboard_layouts(keyboard_layout_uid),
+    FOREIGN KEY (keyboard_layouts_wk_uid) REFERENCES keyboard_layouts_wk(keyboard_layout_wk_uid)
+);
+
+create table keyboard_material_links (
+    keyboard_material_link_uid BLOB PRIMARY KEY,
+    keyboard_master_uid BLOB NOT NULL,
+    material_uid BLOB NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
+    FOREIGN KEY (keyboard_master_uid) REFERENCES keyboard_master(keyboard_master_uid)
+    FOREIGN KEY (material_uid) REFERENCES materials(material_uid)
+);
+
+create table keyboard_finish_types (
+    keyboard_finish_type_uid BLOB PRIMARY KEY,
+    keyboard_finish_type_desc TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
+);
+
+create table keyboard_finish_links (
+    keyboard_finish_link_uid BLOB PRIMARY KEY,
+    keyboard_master_uid BLOB NOT NULL,
+    keyboard_finish_type_uid BLOB NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
+    FOREIGN KEY (keyboard_master_uid) REFERENCES keyboard_master(keyboard_master_uid)
+    FOREIGN KEY (keyboard_finish_type_uid) REFERENCES keyboard_finish_types(keyboard_finish_type_uid)
+);
+
+create table keyboard_layouts (
+    keyboard_layout_uid BLOB PRIMARY KEY,
+    keyboard_layout_desc TEXT NOT NULL,
+    keyboard_layout_size INTEGER NOT NULL,   
+    keyboard_layout_macro_columns INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
+);
+
+create table keyboard_layouts_wk (    
+    keyboard_layout_wk_uid BLOB PRIMARY KEY,
+    keyboard_layout_wk_desc TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
+);
+
+create table keyboard_finish_types (
+    keyboard_finish_type_uid BLOB PRIMARY KEY,
+    keyboard_finish_type_desc TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
+);
+
+create table keycaps_master (
+    keycap_uid BLOB PRIMARY KEY,
+    keycap_material_uid BLOB NOT NULL,
+    keycap_profile_uid BLOB NOT NULL,
+    keycap_manufacture_method_uid BLOB NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL,
+    FOREIGN KEY (keycap_material_uid) REFERENCES materials(material_uid),
+    FOREIGN KEY (keycap_profile_uid) REFERENCES keycap_profiles(keycap_profile_uid),
+    FOREIGN KEY (keycap_manufacture_method_uid) REFERENCES keycap_manufacture_methods(keycap_manufacture_method_uid),
+);
+
+
+create table keycap_profiles (
+    keycap_profile_uid BLOB PRIMARY KEY,
+    keycap_profile_desc TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE,
+    deleted_at TIMESTAMP DEFAULT NULL
+);
+
+create table keycap_manufacture_methods (
+    keycap_manufacture_method_uid BLOB PRIMARY KEY,
+    keycap_manufacture_method_desc TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
+);
+
+create table swithches_master (
+    switch_uid BLOB PRIMARY KEY,
+    switch_manufacturer_uid BLOB NOT NULL,
+    switch_type TEXT NOT NULL,
+    switch_activation_force INTEGER NOT NULL,
+    switch_bottom_out_force INTEGER NOT NULL,
+    switch_travel_distance INTEGER NOT NULL,
+    switch_actuation_poINTEGER INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
+    FOREIGN KEY (switch_manufacturer_uid) REFERENCES manufacturer(manufacturer_uid)
+);
+
+create table switch_types (
+    switch_type_uid BLOB PRIMARY KEY,
+    switch_type_desc TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL
@@ -49,18 +191,23 @@ create table manufacturer (
     deleted_at TIMESTAMP DEFAULT NULL
 );
 
-create table item_status (
-    item_status_uid BLOB PRIMARY KEY,
-    item_status_description TEXT NOT NULL,
+create table vendors (
+    vendor_uid BLOB PRIMARY KEY,
+    vendor_name TEXT NOT NULL NOT NULL,
+    vendor_website TEXT NOT NULL,
+    vendor_phone TEXT NOT NULL,
+    vendor_email TEXT NOT NULL,
+    vendor_discord TEXT NOT NULL,
+    vendor_notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL
 );
 
-create table designers (
-    designer_uid BLOB PRIMARY KEY,
-    designer_name TEXT NOT NULL,
+create table item_status (
+    item_status_uid BLOB PRIMARY KEY,
+    item_status_description TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
@@ -71,46 +218,62 @@ create table item_types (
     item_type_uid BLOB PRIMARY KEY,
     item_type_description TEXT NOT NULL,
     item_type_table TEXT NOT NULL,
+    item_type_bitmap_value INTEGER NOT NULL,
+    item_type_links_to_keyboard BOOLEAN DEFAULT FALSE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL
 );
+
+create table pcb_types (
+    pcb_type_uid BLOB PRIMARY KEY,
+    pcb_type_desc TEXT NOT NULL,
+    pcb_is_hotswappable BOOLEAN DEFAULT TRUE NOT NULL, 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
+);
+
+create table pcb_keyboard_links (
+    pcb_keyboard_link_uid BLOB PRIMARY KEY,
+    pcb_type_uid BLOB NOT NULL,
+    keyboard_master_uid BLOB NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
+    FOREIGN KEY (pcb_type_uid) REFERENCES pcb_types(pcb_type_uid),
+    FOREIGN KEY (keyboard_master_uid) REFERENCES keyboard_master(keyboard_master_uid)
+);
+
+create table plate_types (
+    plate_type_uid BLOB PRIMARY KEY,
+    plate_type_desc TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
+);
+
+create table plate_keyboard_links (
+    plate_keyboard_link_uid BLOB PRIMARY KEY,
+    plate_type_uid BLOB NOT NULL,
+    keyboard_master_uid BLOB NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
+    FOREIGN KEY (plate_type_uid) REFERENCES plate_types(plate_type_uid),
+    FOREIGN KEY (keyboard_master_uid) REFERENCES keyboard_master(keyboard_master_uid)
+);
+
 
 create table colors (
     color_uid BLOB PRIMARY KEY,
     color_desc TEXT NOT NULL,
     color_hex TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deleted BOOLEAN DEFAULT FALSE NOT NULL,
-    deleted_at TIMESTAMP DEFAULT NULL
-);
-
-create table keyboard_materials (
-    keyboard_material_uid BLOB PRIMARY KEY,
-    keyboard_material_desc TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deleted BOOLEAN DEFAULT FALSE NOT NULL,
-    deleted_at TIMESTAMP DEFAULT NULL
-);
-
-create table keyboard_layouts (
-    keyboard_layout_uid BLOB PRIMARY KEY,
-    keyboard_layout_windows_key TEXT NOT NULL,
-    keyboard_layout_size INT NOT NULL,     -- Check on this...
-    keyboard_layout_macro_columns INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deleted BOOLEAN DEFAULT FALSE NOT NULL,
-    deleted_at TIMESTAMP DEFAULT NULL
-);
-
-
-create table keycap_materials (
-    keycap_material_uid BLOB PRIMARY KEY,
-    keycap_material_desc TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
@@ -135,24 +298,22 @@ create table keycap_manufacture_methods (
     deleted_at TIMESTAMP DEFAULT NULL
 );
 
-create table vendors (
-    vendor_uid BLOB PRIMARY KEY,
-    vendor_name TEXT NOT NULL NOT NULL,
-    vendor_website TEXT NOT NULL,
-    vendor_phone TEXT NOT NULL,
-    vendor_email TEXT NOT NULL,
-    vendor_discord TEXT NOT NULL,
-    vendor_notes TEXT,
+create table artisan_master (
+    artisan_uid BLOB PRIMARY KEY,
+    artisan_material_uid BLOB NOT NULL,
+    keycap_profile_uid BLOB NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL
+    FOREIGN KEY (artisan_material_uid) REFERENCES materials(material_uid),
+    FOREIGN KEY (keycap_profile_uid) REFERENCES keycap_profiles(keycap_profile_uid)
 );
 
 create table item_tags (
     item_tag_uid BLOB PRIMARY KEY,
     item_tag_desc TEXT NOT NULL,
-    item_tag_availability INT DEFAULT 0 NOT NULL,
+    item_tag_applies_to INTEGER DEFAULT 0 NOT NULL,
     item_tag_type text,
     item_tag_data text,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -170,6 +331,8 @@ create table item_tag_links (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL
+    FOREIGN KEY (item_tag_uid) REFERENCES item_tags(item_tag_uid),
+    FOREIGN KEY (item_uid) REFERENCES item_master(item_uid)
 );
 
 create table color_tag_links (
@@ -180,6 +343,8 @@ create table color_tag_links (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL
+    FOREIGN KEY (item_uid) REFERENCES item_master(item_uid),
+    FOREIGN KEY (color_uid) REFERENCES colors(color_uid)
 );
 
 create table material_tag_links (
@@ -190,6 +355,8 @@ create table material_tag_links (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL
+    FOREIGN KEY (item_material_link_uid) REFERENCES materials(material_uid),
+    FOREIGN KEY (item_uid) REFERENCES item_master(item_uid)
 );
 
 create table photos (
@@ -202,6 +369,8 @@ create table photos (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL
+    FOREIGN KEY (item_uid) REFERENCES item_master(item_uid),
+    FOREIGN KEY (photo_extention_uid) REFERENCES photo_extentions(photo_extention_uid)
 );
 
 create table photo_item_links (
@@ -212,6 +381,8 @@ create table photo_item_links (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL
+    FOREIGN KEY (photo_uid) REFERENCES photos(photo_uid),
+    FOREIGN KEY (item_uid) REFERENCES item_master(item_uid)
 );
 
 create table photo_extentions (
@@ -225,27 +396,25 @@ create table photo_extentions (
     deleted_at TIMESTAMP DEFAULT NULL
 );
 
-create table keyboard_layouts (
-    keyboard_layout_uid BLOB PRIMARY KEY,
-    keyboard_layout_desc TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deleted BOOLEAN DEFAULT FALSE NOT NULL,
-    deleted_at TIMESTAMP DEFAULT NULL
-);
-
 create table builds (
     build_uid BLOB PRIMARY KEY,
     build_name TEXT NOT NULL,
-    build_keyboard_uid BLOB NOT NULL,
+    build_keyboard_master_uid BLOB NOT NULL,
     build_keycap_uid BLOB NOT NULL,
     build_switch_uid BLOB NOT NULL,
-    build_is_retired BOOLEAN DEFAULT FALSE NOT NULL,
+    build_pcb_type_uid BLOB NOT NULL,
+    build_plate_type_uid BLOB NOT NULL,
+    build_currently_built BOOLEAN DEFAULT TRUE NOT NULL,
     build_notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL
+    FOREIGN KEY (build_keyboard_master_uid) REFERENCES keyboard_master(keyboard_master_uid),
+    FOREIGN KEY (build_keycap_uid) REFERENCES keycaps_master(keycap_uid),
+    FOREIGN KEY (build_switch_uid) REFERENCES swithches_master(switch_uid),
+    FOREIGN KEY (build_pcb_type_uid) REFERENCES pcb_types(pcb_type_uid),
+    FOREIGN KEY (build_plate_type_uid) REFERENCES plate_types(plate_type_uid)
 );
 
 create table build_photo_links (
@@ -256,12 +425,36 @@ create table build_photo_links (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL
+    FOREIGN KEY (build_uid) REFERENCES builds(build_uid),
+    FOREIGN KEY (photo_uid) REFERENCES photos(photo_uid)
 );
 
 create table db_version (
     db_version_uid BLOB PRIMARY KEY,
     db_version_number TEXT NOT NULL,
     db_version_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
+);
+
+create table materials (
+    material_uid BLOB PRIMARY KEY,
+    material_desc TEXT NOT NULL,
+    material_applies_to ING NOT NULL,  -BITMAP see Entity_types for values
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
+
+);
+
+create table entity_types (
+    entity_type_uid BLOB PRIMARY KEY,
+    entity_type_desc TEXT NOT NULL,
+    entity_type_table TEXT NOT NULL,
+    entity_type_bitmap_value INTEGER NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE NOT NULL,
@@ -307,6 +500,20 @@ CREATE INDEX idx_build_photo_links_photo ON build_photo_links(photo_uid) WHERE d
 
 
 /**     Create Default Records       **/
+insert into item_types (    
+    item_type_description,
+    item_type_table,
+    item_type_bitmap_value,
+    item_links_to_keyboard,
+    deleted
+) values
+    ('Keyboard', 'keyboard_master', 1,false),
+    ('Keycaps', 'keycaps_master', 2, false),
+    ('Switches', 'switches_master',4, false),
+    ('Artisan', 'artisan_master', 8, false),
+    ('PCB', 'pcb_master', 16, false),
+    ('Plate', 'plate_master', 32, false);
+
 insert into item_status (
     item_status_description,
     deleted
@@ -346,20 +553,7 @@ insert into colors (
     ('Salmon', '#FA8072', false),
     ('Tan', '#D2B48C', false);
 
-insert into keyboard_materials (
-    keyboard_material_desc,
-    deleted
-) values
-    ('Aluminum', false),
-    ('Extruded Plastic', false),
-    ('Extruded Acrylic', false),
-    ('CNC Acrylic', false),
-    ('Wood', false),
-    ('Brass', false),
-    ('Copper', false),
-    ('Titanium', false),
-    ('Resin', false),
-    ('ABS', false);
+
 
 insert into keyboard_layouts (
     keyboard_layout_desc,
@@ -387,18 +581,24 @@ insert into keycap_manufacture_methods (
     ('UV Printed', false),
     ('Hydro Dipped', false);
 
-
-insert into keycap_materials (
-    keycap_material_desc,
+insert into materials (
+    material_desc,
+    material_applies_to,
     deleted
 ) values
-    ('ABS', false),
-    ('PBT', false),
-    ('POM', false),
-    ('Polycarbonate', false),
-    ('Resin', false),
-    ('Metal', false),
-    ('Wood', false);
+    ('ABS', 2, false),
+    ('PBT', 2, false),
+    ('POM', 2, false),
+    ('PC', 2, false),
+    ('Aluminum', 1, false),
+    ('Steel', 1, false),
+    ('Brass', 1, false),
+    ('Copper', 1, false),
+    ('Titanium', 1, false),
+    ('Zinc Alloy', 1, false),
+    ('Resin', 8, false),
+    ('Wood', 8, false),
+    ('Ceramic', 8, false);
 
 insert into keycap_profiles (
     keycap_profile_desc,
@@ -451,7 +651,6 @@ insert into item_tags (
 ) values
     ('Premium Manufacturer', 7, true, false),
     ('Designer', 7, '', false),
-    ('Has Artisans', 2, false, false),
     ('Has Macro Keys', 2, false, false),
     ('Has Alert/Highlight/Accent', 2, false, false),
     ('Has Novelties', 2, false, false),
@@ -482,14 +681,51 @@ insert into item_tags (
     ('Keycap Thickness', 2, 0, false);
     ('Condition', 2, 'New', false)
     ('Condition Notes', 7, '', false);
-    ('Keyboard Finish Type', 7, 'Anodized', false);
     ('Purchased New', 2, true, false);
     ('Macro Columns', 2, 0, false);
     ('Has F13 Key', 2, , 0, false);
 
-insert innto db_version (
+insert into db_version (
     db_version_number,
     deleted
 ) values
     (VERSION_NUMBER, false);
+
+insert into switch_types (
+    switch_type_desc,
+    deleted
+) values
+    ('Linear', false),
+    ('Tactile', false),
+    ('Clicky', false),
+    ('Optical', false),
+    ('Hall Effect', false),
+    ('Capacitive', false),
+    ('Electrostatic', false),
+    ('Magnetic', false),
+    ('Hybrid', false),
+    ('Other', false);
+
+insert into keyboard_finish_types (
+    keyboard_finish_type_desc,
+    deleted
+) values
+    ('Anodized', false),
+    ('Powder Coated', false),
+    ('Electrostatic Painted', false),
+    ('raw', false),
+    ('Other', false);
+
+insert into entity_types (
+    entity_type_desc,
+    entity_type_table,
+    entity_type_bitmap_value,
+    deleted
+) values
+    ('Keyboard', 'keyboard_master', 1, false),
+    ('Keycap', 'keycaps_master', 2, false),
+    ('Switch', 'switches_master', 4, false),
+    ('Artisan', 'artisan_master', 8, false),
+    ('PCB', 'pcb_master', 16, false),
+    ('Plate', 'plate_master', 32, false);
 

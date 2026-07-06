@@ -18,6 +18,20 @@ The target user is a keyboard enthusiast with a medium to large collection
 of keyboards, keycaps, and switches, and wants a system to manage the 
 collection and capture data about it.
 
+As a user of the program, I want
+
+-   To add records for keyboard, keycaps and switches (items/item types) and their
+    related data because that is the main point of the program :)
+-   to have a tagging system, where I can create "tag types" that are
+    associated one or more item types because I want to have an extensible
+    tagging system
+-   I sant 
+3.  I want each tag to hold a data field, with option
+
+
+
+
+
 1.  The user can add records for keyboards, keycaps, and switches (items) To
     track them within the application.
 2.  The user can link existing tags to the items, as well as create new tags
