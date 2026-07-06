@@ -25,7 +25,8 @@ As a user of the program, I want
 -   to have a tagging system, where I can create "tag types" that are
     associated one or more item types because I want to have an extensible
     tagging system
-*   -   I want 
+-   I want 
+    - I really want
 3.  I want each tag to hold a data field, with option
 
 
