@@ -1,5 +1,14 @@
-# Keyboard DB Documentation
-##  User Stories
+`****************************************************
+`*               KeyboardDB Application             *
+`*                                                  *
+`*                    User Stories                  *
+`*                                                  *
+`*                    Version: 0.1                  *
+`*                                                  *
+`*            Created by: Steve Peterson            *
+`*                  Copyright (2026)                *
+`*                    MIT License                   *
+v****************************************************
 
 ### Target user
 
@@ -100,7 +109,7 @@ As a user of the program, I want...
     3.  To double-click on a photo to open up the image viewer described in 5.1 for
         the reasons described in 5.1
 
-10. ITo have an interface to view other entities that may be linked to items, such as
+10. To have an interface to view other entities that may be linked to items, such as
     Manufacturer, Designer, Vendor, keyboard layouts, materials, keycap profiles, keycap
     manufacturing methods and other entities in the application to keep available data
     options up-to-date
@@ -117,10 +126,14 @@ As a user of the program, I want...
     operating systems
 
 13. To be able to export all data as an XML or YAML document to facilitate data transfer
+    to another data management system
+    1.  To be able to export all data as an excel file with worksheets for each entity
+        so I have another option to access my data.
 
 14. To be able to import data into the system, because I ahve existing data
     1.  To have the system generate simport template, with all attributes and tags
-        associated with each entity to facilite data transfer.
+        associated with each entity to facilite data transfer from and existing
+        database.
 
 
 

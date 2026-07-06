@@ -13,8 +13,8 @@
 */
 
 -- Set database version number
-
 DECLARE { @LOCAL_VARIABLE text = 0.1 };DECLARE { @LOCAL_VARIABLE data_type [ = value ] }
+
 
 /*      Create Database and set up schema for keyboardDB      */
 CREATE TABLE item_master (
