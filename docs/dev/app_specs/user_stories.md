@@ -1,22 +1,23 @@
 /*
-****************************************************
-*               KeyboardDB Application             *
-*                                                  *
-*                 Project Definition               *
-*                                                  *
-*                    Version: 0.1                  *
-*                                                  *
-*            Created by: Steve Peterson            *
-*                  Copyright (2026)                *
-*                    MIT License                   *
-****************************************************
+\****************************************************
+\*               KeyboardDB Application             *
+\*                                                  *
+\*                 Project Definition               *
+\*                                                  *
+\*                    Version: 0.1                  *
+\*                                                  *
+\*            Created by: Steve Peterson            *
+\*                  Copyright (2026)                *
+\*                    MIT License                   *
+\****************************************************
 */
 
-User Story #1
+# User Stories
 
 The target user is a keyboard enthusiast with a medium to large collection
 of keyboards, keycaps, and switches, and wants a system to manage the 
-collection and capture data about it.
+collection and capture data about it. The system is not designed for multiple
+user accounts or a permissions system.
 
 As a user of the program, I want
 
