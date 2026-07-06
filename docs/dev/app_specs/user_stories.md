@@ -1,110 +1,126 @@
-/*
-\****************************************************
-\*               KeyboardDB Application             *
-\*                                                  *
-\*                 Project Definition               *
-\*                                                  *
-\*                    Version: 0.1                  *
-\*                                                  *
-\*            Created by: Steve Peterson            *
-\*                  Copyright (2026)                *
-\*                    MIT License                   *
-\****************************************************
-*/
+# Keyboard DB Documentation
+##  User Stories
 
-# User Stories
+### Target user
 
 The target user is a keyboard enthusiast with a medium to large collection
 of keyboards, keycaps, and switches, and wants a system to manage the 
 collection and capture data about it. The system is not designed for multiple
 user accounts or a permissions system.
 
-As a user of the program, I want
+### User Requirements
+As a user of the program, I want...
 
--   To add records for keyboard, keycaps and switches (items/item types) and their
+1.  To add records for keyboard, keycaps and switches (items/item types) and their
     related data because that is the main point of the program :)
--   to have a tagging system, where I can create "tag types" that are
-    associated one or more item types because I want to have an extensible
+    1.  To link one or more pcb or plate types to the record to keep
+        track of which pcb types and plates I have for a give keyboard.
+2.  To have a tagging system, where I can create "tag types" that are
+    associated one or more item types because To have an extensible
     tagging system
--   I want 
-    - I really want
-3.  I want each tag to hold a data field, with option
+    1.  Each tag should store a single data entry, which can be different data types
+        like text or numbers because To store bits of data in the tags.
+    2.  tags to only link with item types the tag type is associated with to
+        ensure tag data is relevent to the item it is linked to
+    3.  To be able to remove a tag link so I can reformat my data as needed
+    4.  To be able to delete a tag type as long as it has not tags associated
+        with it because my needs for tag types may change
+    5.  When adding or editing tag values I have a drop down with all existing 
+        data values associated with that tag and item type. I can select
+        an existing value, or type my own in, to simplify data entry and reduce
+        data entry errors.
+
+3.  To be able to upload photos in all common formats 
+    and store them in the system so pictures can be displayed to the user
+    1.  To tag pictures to items to be able to display related pictures
+    2.  To be able to tag pictures to more than one item (eg, Keyboard, 
+        Keycap Set) so I can find pictures tagged to different entities
+    3.  To tag a picture multipl multiple of each item type to accomodate
+        pictures of more than one keyboard or keycap set
+    4.  To be able to delete a photo as long as it isn't linked to any
+        item because sometimes I change mymind about liking pictures
+
+4.  To have the interface show list of items and their essential data points
+    displayed so I can get an over of my collection
+    1.  To filter the list by item type, item properties, or item tags to speed
+        up finding items
+    2.  to sort the list by item type and item properties to help with visual
+        data analysis    
+
+5.  To click on an item to see a screen with all details associated with the
+        item as well as all thumbnails of photos associated with the item to 
+        get a full view of data associated with an item
+    1.  To click on a picture thumbnail in view mode, and get a window with an
+        image viewer. Buttons will alow me to move between pictures linked to this
+        as well as zoom in and out, because To view full size pictures of the
+        entities.
+    2.  To be able to upload a new picture and have it tag the photo to the 
+        current item because To keep my photos current.
+
+6.  To be able to go into edit mode and edit an item's properties and tags,
+        as well as link existing photos and upload new photos to be linked
+        to the item because To keep data current.
+    1.  To have edits in the system to be saved immediately, so I don't
+        have to click "save" to save my data
+    2.  To be able to to click on a thumbnail to bo to the image viewer
+        described in 5.1 for the same reasons described
+
+7.  A "Tag Manager" interface where I can view a list of tags in
+    the system so I can get an overall view of my tags.
+    1.  To filter the list by tag type or name to find tags
+    2.  To sort the list by tag type or name to find tags
+    3.  To click on a tag type and see a list of associated items
+    3.  To click to edit a tagtype and have an edit screen to change
+        a tag information
+        1.  To be able to change a tag type description because I'm wishy washy
+        2.  To enable a tag types to be used with a new item type because
+            My needs will change
+        3.  To disable a tag being linked with an item type it is currently
+            enabled on to change how tags are assigned. 
+            *TO BE DETERMINED* Will existing tags have to be
+            removed first, or those tags stay on existing items? ******
+
+8.  To be able to create a Build record, which may have keyboard, keycaps, and 
+    switches records, or any combination of those, linked to it to make a record
+    of specific builts
+    1.  To be able to link photos to the build record so I have a visual record.
+    2.  To be able to mark a build as "Current" or "Retured" meaning the build is 
+        currently together. I would like to have a view of the history of builds
+        for an existing item, so I can see all of the builds associated with that
+        ite.
+    3.  To be able to tag zero or one pcb and plate records so I can indicate how a
+        build is currently set up
+
+9.  To have an interface to view thumbnails all photos on the system so I can see all photos
+    on the system
+    1.  To click on a photo to see it larger, see all associated items, an
+        remove a link if desired because I may want manage photos.
+    2.  To be able to delete a photo, which will also delete all links associated
+        With that photo.
+    3.  To double-click on a photo to open up the image viewer described in 5.1 for
+        the reasons described in 5.1
+
+10. ITo have an interface to view other entities that may be linked to items, such as
+    Manufacturer, Designer, Vendor, keyboard layouts, materials, keycap profiles, keycap
+    manufacturing methods and other entities in the application to keep available data
+    options up-to-date
+
+11. To be able to move the database to a different location on my computer,
+    my network, or cloud storage to give me more control over data storage and run the
+    application from different machines.
+    1.  To be able to create a new empty collection, so I can manage a different
+        collection
+    2.  I want the ability to switch between collections, so I can manage all my 
+        collections
+
+12. To be able to run the application on MacOS, Windows or Linux because I use multiple
+    operating systems
+
+13. To be able to export all data as an XML or YAML document to facilitate data transfer
+
+14. To be able to import data into the system, because I ahve existing data
+    1.  To have the system generate simport template, with all attributes and tags
+        associated with each entity to facilite data transfer.
 
 
 
-
-
-1.  The user can add records for keyboards, keycaps, and switches (items) To
-    track them within the application.
-2.  The user can link existing tags to the items, as well as create new tags
-    to link to items to associate information with collection items. 
-    A.  Tags provide an extensible system that allows users to track arbitrary
-        data points on their system.
-3.  The user can upload photos and tag them to one or more items to accomodate
-    managing photos of the collection.
-4.  The user can use an interface to search items in the database. 
-    A.  They can filter the list or perform searches. 
-    Tag values may be used 
-    A.  for filtering and searching to ease searching for an item.
-5.  The user can select an item to see all of data associated with it,
-    including linked photo thumbnails to view and verify data.
-6.  An interface option placed the item in edit mode so the user can edit all 
-    data. 
-    A.  The user can edit basic item data points to keep them accurate.
-    B.  The user can edit existing tag values or add tags to the item so they 
-        can track additional data points
-    C.  Clicking on a thumbnail bring up a photo viewer, which can be made full screen
-    D.  The user interface will show buttons between photos and controls for 
-        zooming the image in and out so the user can inspect the photos
-7.  The user can upload photos and link them to items to organize photos of the item.
-    A.  The user can import most popular image formats to maxize flexibility
-    B.  The user can link a photo to any object type, and link a photo to multiple
-        items to provide flexibility for the user    
-8.  The user can use the interface to create a new database to manage separate
-    collections.
-9.  When using the application
-10. When the user changes a data point or setting, the data will be stored 
-    immediately without the need to click a save button.
-11. The user can export all data as a plain text file to allow import into
-    other systems.
-12. The user can create a "build" object which can include a keyboard, keycaps, and
-    switches or any combination of the three. 
-    A.  The user can link photos to a build object. Photos can be linked to a build
-        to provide a more complete record of the build.
-    B.  A user can A build can be set as "current" or "retired" to indicate whether 
-        a particular build configuration is currently in use to keep a history record
-        of builds.
-13. The user can import records from a properly-formatted CSV files so they can
-    reuse data from existing systems. One item type will be imported at a time. 
-    A.  To accomodate this, the user can export a csv template with all fields 
-        associated with that item type to simplify import process. 
-    B.  The user will fill in the data and import it to the application. Any 
-        detected errors in formatting or data will result in aborting the
-        the import to avoid importing invalid or incomplete data
-14. The user can run the application in MacOS, Linux, or Windows to maximize portability
-15. The user can move the data store to a different location to allow in flexibility 
-    for use on multiple machines.
-16. The user will be able to create or move the datastore to any location
-    compatible with the datastore for flexibility in how or where the application
-    is used.
-17. The user can create and edit records for Manufacturer, Designer, Vendor, 
-    keyboard layouts, keyboard materials, keycap materials
-    keycap profiles, keycap manufacture methos that can be tagged to
-    appropriate item types.
-18. The user can enter a new value or select a value from a list of values 
-    currently entered for that tag type, to simplify reusing tags.
-19. The user can access a Photo Manager page to view all photos in the 
-    datastore.
-    A.  The user sees a collection of thumbnails, which are filterable
-        and sortable by any data point associated with the photos, including 
-        data points from linked items to peruse the entire photo collection
-    B.  The clicks on a photo brings up the photo information page
-        1.  The user can view all data points associated with the photo,
-            including links to other items to get a full understanding of
-            the photo and its links.
-        2. The user can enter edit mode to edit existing data points and
-            delete links between photos and items. to allow for managing 
-            photos.
-    C. Double-clicking on a photo on the photo list moves the user into
-        a photo viewer window. The user can click to move betwen folders
-        as well as zoom in and out to aid in inspection of the photos.
